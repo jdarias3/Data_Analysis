@@ -1,3 +1,53 @@
+#pip install pandas
+#pip install openpyxl
+
+import pandas as pd 
+import json
+
+#File from Robo3T, needs to remove object ID and replace '}' to '},' and add [] to start and end of the document
+
+with open('03062019.json') as data_file:
+    data = json.load(data_file)
+    df = pd.io.json.json_normalize(data)
+    print(df)
+
+print(df.info())
+df['Date_note'] = pd.to_datetime(df['Date_note'],format='%Y-%m-%d %H:%M:%S')
+print(df.info())
+#print(df.Date_note)
+#long method to search
+'''#Filter rows of a pandas DataFrame by Column Value    
+booleans = []
+for data in df.Date_note:
+    if date < expected_date:
+        booleans.append(True)
+    else:
+        booleans.append(False)
+len(booleans)
+#Convert booleans in pandas Series
+is_long = pd.Series(booleans)
+
+#to see the results of a specific colum
+#df['SR']
+#To see the complete row use the booleans
+df[is_long]'''
+
+'''
+#Short method to search
+is_long = df.Date_note >= expected date
+is_long.head()
+df[is_long]'''
+
+# very short method
+print(df[df.Date_note >= '2019-05-27 08:19:00'])
+df[df.Date_note >= '2019-05-27 08:19:00'].to_excel("output.xlsx")
+
+'''#To find the result of the comparator of a single column, SR numbers with the expected_date
+df[df.Date_note >= expected date].SR
+df[df.Date_note >= expected date]['SR']
+df.loc[df.Date_note >= expected date,'SR'] #loc split between col and rows [row,col]'''
+
+
 import pandas as pd 
 import json
 
